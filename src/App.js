@@ -2,10 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { IMGS } from './api/imgsrc';
 import { gsap } from 'gsap'
-/*import Footer from './components/Footer';
-import Main from './components/Main';
-import Navbar from './components/Navbar';*/
-
+import { Helmet } from 'react-helmet';
 function App() {
   const Lines = [
     'I aint explaining shit',
@@ -15,6 +12,7 @@ function App() {
   let appref= React.useRef(null);
   let Imageref=React.useRef(null);
   let contentRef = React.useRef(null);
+  let headref = React.useRef(null);
   React.useEffect(() => {
     const girl1 = Imageref.firstElementChild;
     const girl2 = Imageref.lastElementChild;
@@ -28,14 +26,22 @@ function App() {
         visibility : 'visible'
       }
     })
-    gsap.timeline({delay: 0.8}).from(girl1,{
+    gsap.timeline({delay: 0.8})
+    .from(
+      headref.firstElementChild.firstElementChild,{
+        y: 65,
+        duration: 1.5,
+        opacity: 0
+      })
+    .from(girl1,{
       y: 1280,
       duration: 1.5,
       ease: 'power4',
       stagger : {
         from : 'start'
       }
-    }).from(girl1.firstElementChild,{
+    },"-=1.5")
+    .from(girl1.firstElementChild,{
       scale: 2,
       duration: 1.5
     },'-=1.5')
@@ -74,7 +80,19 @@ function App() {
   })
   return (
     <MainApp>
+          <Helmet>
+              <title>Sayantan's Gsap trial</title>
+              <meta name="description" content="Playing around with the most popular animation library the world uses" />
+              <meta name="theme-color" content="#fffff" />
+          </Helmet>
           <div className="container" ref={el => appref = el}>
+            <h1 className="header" ref={headel => headref = headel}>
+              <div className="header-content">
+                  <div className="header-content--line">
+                  &ldquo;Sayantan's gsap trial.&rdquo;
+                  </div>
+              </div>
+            </h1>
             <div className="hero-inner">
               <div className="hero-content">
                   <div className="hero-content-inner" ref={ele => contentRef = ele}>
@@ -121,6 +139,16 @@ height: 100vh;
 font-family : var(--content);
 font-weight: 300;
 visibility: hidden;
+.header{
+  position:absolute;
+  left: 1rem;
+  font-size: 3rem;
+  &-content{
+    height: 70px;
+    margin: 0;
+    overflow: hidden;
+  }
+}
 .container{
   width: 1440px;
   min-width: 1440px;
@@ -220,12 +248,6 @@ visibility: hidden;
     }
   }
 }
-/*background-color : #515070;
-color: #ff8e6e;
-display : grid;
-margin: 0;
-padding: 0;
-grid-template-rows: max-content 1fr max-content;*/
 `
 const Arrow = ({className,width}) =>{
   return(
