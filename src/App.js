@@ -28,7 +28,7 @@ function App() {
         visibility : 'visible'
       }
     })
-    gsap.timeline().from(girl1,{
+    gsap.timeline({delay: 0.8}).from(girl1,{
       y: 1280,
       duration: 1.5,
       ease: 'power4',
